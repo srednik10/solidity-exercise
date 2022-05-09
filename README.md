@@ -50,7 +50,6 @@ The tools and libraries listed below are already set-up for you. However, feel f
 
 ## Tasks
 
-<!--⚠️ There will be 3 tasks that should be solved one by one.<br />-->
 ⚠️ All user stories have to be implemented in Solidity.
 
 You will have to implement them in the `/contracts` folder.<br />
@@ -68,7 +67,7 @@ Token should be transferable and mintable. <br />
 
 Check the instructions [HERE](./BLXToken.md)
 
-### #2 - BLX Bank [easy+]
+### #2 - BLX Bank [moderate]
 
 Create a Bank contract where users create their accounts and can store `BLX` token <br/>
 The bank should store information about the number of user accounts and global BLX balance. <br/>
@@ -77,7 +76,13 @@ The bank should have the owner account that is able to pause and unpause deposit
 
 Check the instructions [HERE](./BLXBank.md)
 
-### #3 - BLX Locker [moderate]
+### #3 - BLX Locker [moderate+]
+
+Extend/upgrade a Bank contract and allow users to lock funds for other users.<br/>
+Locked funds should be possible to unlock at a specific date or linearly over the given time.<br/>
+Use the upgradeability concept from OpenZeppelin.
+
+Check the instructions [HERE](./BLXLocker.md)
 
 ---
 

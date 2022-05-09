@@ -17,7 +17,8 @@
 
 ## Notes
 ### General
-- **Do not inherit any of the existing implementation of the token, create your own**
+- ⚠️ **If you where asked to solve #2 and/or #3 tasks, you are free to use exisiting implementation of ERC20.** <br/>
+  ⚠️ **otherwise: Do not inherit any of the existing implementation of the token, create your own**
 - Take time to construct a readable contract
 - Keep in mind that your smart contract should be usable by anyone (frontend, dapps...)
 - Testing is very important for us, so your app should be tested

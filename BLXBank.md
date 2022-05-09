@@ -8,11 +8,11 @@
     - [structs](https://docs.soliditylang.org/en/v0.8.13/types.html?highlight=structs#structs)
   - security
     - [re-entrancy](https://docs.soliditylang.org/en/v0.8.13/security-considerations.html?highlight=re-entrancy#re-entrancy)
-  - OpenZeppelin
-    - [Using with Hardhat](https://docs.openzeppelin.com/learn/developing-smart-contracts#using-openzeppelin-contracts) 
-    - [contracts](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts)
-      - [Ownable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol)
-      - [Pausable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/Pausable.sol)
+- OpenZeppelin
+  - [Using with Hardhat](https://docs.openzeppelin.com/learn/developing-smart-contracts#using-openzeppelin-contracts) 
+  - [contracts](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts)
+    - [Ownable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol)
+    - [Pausable](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/Pausable.sol)
 
 ## Instructions
 
