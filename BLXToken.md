@@ -55,7 +55,6 @@ Please, read the following user stories to implement:
   - eg. `Transfer(address, uint256)`, `Mint(address, uint256)`, `Approve(address, address, uint256)`
 - Meta-information should be set in the constructor.
 - Token contract should implement IERC20 interface
-  - located in `contracts/interfaces/IERC20.sol`
 
 ### Extra points
 - Deploy BLX Token contract to testnet network of your choice

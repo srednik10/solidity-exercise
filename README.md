@@ -61,13 +61,23 @@ The definition of done for a user story is:
 - [x] Tests have been written
 - [x] Quality controls are passed
 
-### #1 - BLX Token
+### #1 - BLX Token [easy]
 
 Create ERC20 token contract with `BLX` symbol, `Bloxify Token` name, and `18` decimals. <br />
 Token should be transferable and mintable. <br />
 
 Check the instructions [HERE](./BLXToken.md)
 
+### #2 - BLX Bank [easy+]
+
+Create a Bank contract where users create their accounts and can store `BLX` token <br/>
+The bank should store information about the number of user accounts and global BLX balance. <br/>
+It should be possible to get public information about any user account - date of creation, balance, and number of transactions (deposits and withdrawals). <br/>
+The bank should have the owner account that is able to pause and unpause deposits
+
+Check the instructions [HERE](./BLXBank.md)
+
+### #3 - BLX Locker [moderate]
 
 ---
 
