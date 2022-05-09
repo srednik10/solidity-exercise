@@ -25,11 +25,11 @@ Keep in mind that:
 
 ### Engines versions
 - [Node](https://nodejs.org/en/): **16.X.X** (`node -v`)
-- [npm](https://www.npmjs.com/): **8.X.X** (`npm -v`)
+- [yarn](https://yarnpkg.com/): (`npm install -g yarn`)
 
 ### Installation
 ```sh
-npm install # or yarn
+yarn
 ```
 
 ### Scripts
