@@ -90,14 +90,12 @@ describe("BLX Token contract", function () {
   });
 
   it("exception should be thrown if transfer amount is equal to 0", async function () {
-    const [recipientAddress] = await ethers.getSigners();
+    const [signer, recipientAddress] = await ethers.getSigners();
 
     await expect(contract.transfer(recipientAddress.getAddress(), 0)).to.be.revertedWith("Amount cannot be 0");
   });
 
   it("exception should be thrown if recipient is zero address", async function () {
-    const [signer, recipientAddress] = await ethers.getSigners();
-
     const amountToMint = BigNumber.from("100000000000000000");
 
     await contract.mint(amountToMint);
@@ -114,5 +112,34 @@ describe("BLX Token contract", function () {
     await expect(contract.transfer(recipientAddress.getAddress(), amountToMint)).to.emit(contract, "Transfer");
 
   });
+
+  it("transfer should possible only to another account", async function () {
+  const [recipientAddress] = await ethers.getSigners();
+
+  const amountToMint = BigNumber.from("1000000000000000000");
+  await contract.mint(amountToMint);
+
+  await expect(contract.transfer(recipientAddress.getAddress(), amountToMint)).to.be.revertedWith("Sender cannot transfer to himself");
+
+  });
+
+  it("approve amount should be positive", async function () {
+    const [signer, approvedAddress] = await ethers.getSigners();
+  
+    await expect(contract.approve(approvedAddress.getAddress(), 0)).to.be.revertedWith("Amount cannot be 0");
+  });
+
+  it("allowace should be possible to set only for another account", async function () {
+    const [signer] = await ethers.getSigners();
+  
+    await expect(contract.approve(signer.getAddress(), 1000)).to.be.revertedWith("Sender cannot set allowace for himself");
+  });
+
+  it("event should be emitted atfer approval", async function () {
+    const [signer, approvedAddress] = await ethers.getSigners();
+  
+    await expect(contract.approve(approvedAddress.getAddress(), 1000)).to.emit(contract, "Approve");
+  });
+
 
 });
