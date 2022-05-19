@@ -151,6 +151,45 @@ describe("BLX Token contract", function () {
     
   });
 
+  it("transferFrom should change balances if succeded", async function () {
+    const [addressFrom, addressTo] = await ethers.getSigners();
+
+    await contract.mint(1000);
+    await contract.approve(addressTo.getAddress(), 1000);
+    await contract.transferFrom(addressFrom.getAddress(), addressTo.getAddress(), 1000);
+
+    const addressFromBalance = await contract.balanceOf(addressFrom.getAddress());
+    const addressToBalance = await contract.balanceOf(addressTo.getAddress());
+
+    expect(addressFromBalance).to.equal(0);
+    expect(addressToBalance).to.equal(1000);
+
+  });
+
+  it("transferFrom should throw exception if amount is not positive", async function () {
+    const [addressFrom, addressTo] = await ethers.getSigners();
+
+    await expect(contract.transferFrom(addressFrom.getAddress(), addressTo.getAddress(), 0)).to.be.revertedWith("Amount cannot be 0");
+  });
+
+  it("transferFrom should throw exception if sender does not have enough funds", async function () {
+    const [addressFrom, addressTo] = await ethers.getSigners();
+
+    await contract.mint(1000);
+    await contract.approve(addressTo.getAddress(), 2000);
+
+    await expect(contract.transferFrom(addressFrom.getAddress(), addressFrom.getAddress(), 1500)).to.be.revertedWith("Sender does not have enough funds");
+  });
+
+  it("transferFrom should throw exception if sender has not allowed enough funds", async function () {
+    const [addressFrom, addressTo] = await ethers.getSigners();
+
+    await contract.mint(1000);
+    await contract.approve(addressTo.getAddress(), 500);
+
+    await expect(contract.transferFrom(addressFrom.getAddress(), addressFrom.getAddress(), 1000)).to.be.revertedWith("Amount is greater than sender has allowed");
+  });
+
 
 
 });

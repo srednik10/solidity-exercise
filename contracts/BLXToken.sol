@@ -74,7 +74,14 @@ contract BLXToken is IERC20 {
     }
 
     function transferFrom(address addressFrom, address addressTo, uint256 amount) public returns (bool) {
+        require(amount > 0, "Amount cannot be 0");
+        require(_balances[addressFrom] >=  amount, "Sender does not have enough funds");
+        require(_allowances[addressFrom][addressTo] >=  amount, "Amount is greater than sender has allowed");
 
+        _balances[addressFrom] -= amount;
+        _balances[addressTo] += amount;
+        _allowances[addressFrom][addressTo] -= amount;
+        emit Transfer(addressFrom, addressTo, amount);
         return true;
     }
 
