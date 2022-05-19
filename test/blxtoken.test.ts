@@ -110,7 +110,6 @@ describe("BLX Token contract", function () {
     await contract.mint(amountToMint);
   
     await expect(contract.transfer(recipientAddress.getAddress(), amountToMint)).to.emit(contract, "Transfer");
-
   });
 
   it("transfer should throw exception if sender tranfers to himself", async function () {
@@ -135,7 +134,7 @@ describe("BLX Token contract", function () {
     await expect(contract.approve("0x0000000000000000000000000000000000000000", 1000)).to.be.revertedWith("Zero address cannot be set as approvedAddress");
   });
 
-  it("allowace should throw exception if sender sets allowance for himself", async function () {
+  it("allowance should throw exception if sender sets allowance for himself", async function () {
     const [signer] = await ethers.getSigners();
   
     await expect(contract.approve(signer.getAddress(), 1000)).to.be.revertedWith("Sender cannot set allowance for himself");
@@ -197,6 +196,13 @@ describe("BLX Token contract", function () {
     await expect(contract.transferFrom(addressFrom.getAddress(), addressFrom.getAddress(), 1000)).to.be.revertedWith("Amount is greater than sender has allowed");
   });
 
+  it("event should be emitted atfer transferFrom", async function () {
+    const [addressFrom, addressTo] = await ethers.getSigners();
 
+    await contract.mint(1000);
+    await contract.approve(addressTo.getAddress(), 1000);
+  
+    await expect(contract.transferFrom(addressFrom.getAddress(), addressTo.getAddress(), 1000)).to.emit(contract, "Transfer");
+  });
 
 });
