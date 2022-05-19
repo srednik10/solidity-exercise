@@ -43,8 +43,6 @@ describe("BLX Token contract", function () {
   });
 
   it("exception should be thrown if total supply overflow", async function () {
-    const [signer] = await ethers.getSigners();
-    
     const decimals = await contract.decimals();
     const amountToMint = BigNumber.from("115792089237316195423570985008687907853269984665640564039457584007913129639930");
   
@@ -53,9 +51,68 @@ describe("BLX Token contract", function () {
   });
 
   it("exception should be thrown if mint amount is equal to 0", async function () {
-    const [signer] = await ethers.getSigners();
-    
     await expect(contract.mint(0)).to.be.revertedWith("Amount cannot be 0");
+  });
+
+  it("balances should change after transfer", async function () {
+    const [signer, recipientAddress] = await ethers.getSigners();
+
+    const amountToMint = BigNumber.from("1000000000000000000");
+    const amountToTransfer = BigNumber.from("500000000000000000");
+    await contract.mint(amountToMint);
+    await contract.transfer(recipientAddress.getAddress(), amountToTransfer);
+
+    const balnceOfRecipient = await contract.balanceOf(recipientAddress.getAddress());
+    const balnceOfSigner = await contract.balanceOf(signer.getAddress());
+
+    expect(balnceOfRecipient).to.equal(amountToTransfer);
+    expect(balnceOfSigner).to.equal(amountToMint.sub(amountToTransfer));
+  });
+
+  it("exception should be thrown if sender does not have enough funds to transfer", async function () {
+    const [signer, recipientAddress] = await ethers.getSigners();
+
+    const amountToMint = BigNumber.from("100000000000000000");
+    const amountToTransfer = BigNumber.from("500000000000000000");
+    await contract.mint(amountToMint);
+
+    await expect(contract.transfer(recipientAddress.getAddress(), amountToTransfer)).to.be.revertedWith("Sender does not have enough funds");
+  });
+
+  it("exception should be thrown if sender does not have enough funds to transfer", async function () {
+    const [signer, recipientAddress] = await ethers.getSigners();
+
+    const amountToMint = BigNumber.from("100000000000000000");
+    const amountToTransfer = BigNumber.from("500000000000000000");
+    await contract.mint(amountToMint);
+
+    await expect(contract.transfer(recipientAddress.getAddress(), amountToTransfer)).to.be.revertedWith("Sender does not have enough funds");
+  });
+
+  it("exception should be thrown if transfer amount is equal to 0", async function () {
+    const [recipientAddress] = await ethers.getSigners();
+
+    await expect(contract.transfer(recipientAddress.getAddress(), 0)).to.be.revertedWith("Amount cannot be 0");
+  });
+
+  it("exception should be thrown if recipient is zero address", async function () {
+    const [signer, recipientAddress] = await ethers.getSigners();
+
+    const amountToMint = BigNumber.from("100000000000000000");
+
+    await contract.mint(amountToMint);
+
+    await expect(contract.transfer("0x0000000000000000000000000000000000000000", 1000)).to.be.revertedWith("Zero address cannot be recipient");
+  });
+
+  it("event should be emitted atfer transfer", async function () {
+    const [signer, recipientAddress] = await ethers.getSigners();
+    
+    const amountToMint = BigNumber.from("1000000000000000000");
+    await contract.mint(amountToMint);
+  
+    await expect(contract.transfer(recipientAddress.getAddress(), amountToMint)).to.emit(contract, "Transfer");
+
   });
 
 });
