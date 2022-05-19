@@ -3,7 +3,6 @@ pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-// TODO: Implement IERC20.sol interface and make the token mintable
 contract BLXToken is IERC20 {
     string private _name;
     string private _symbol;
@@ -53,7 +52,7 @@ contract BLXToken is IERC20 {
     function transfer(address addressTo, uint256 amount) public returns (bool) {
         require(msg.sender != addressTo, "Sender cannot transfer to himself");
         require(_balances[msg.sender] >= amount, "Sender does not have enough funds");
-        require(addressTo != address(0), "Zero address cannot be recipient");
+        require(addressTo != address(0), "Zero address cannot be a recipient");
         require(amount > 0, "Amount cannot be 0");
 
         _balances[msg.sender] -= amount;
@@ -64,7 +63,7 @@ contract BLXToken is IERC20 {
     
     function approve(address approvedAddress, uint256 amount) public returns (bool) {
         require(amount > 0, "Amount cannot be 0");
-        require(msg.sender != approvedAddress, "Sender cannot set allowace for himself");
+        require(msg.sender != approvedAddress, "Sender cannot set allowance for himself");
         _allowances[msg.sender][approvedAddress] = amount;
         emit Approval(msg.sender, approvedAddress, amount);
         return true;
@@ -75,6 +74,7 @@ contract BLXToken is IERC20 {
     }
 
     function transferFrom(address addressFrom, address addressTo, uint256 amount) public returns (bool) {
+
         return true;
     }
 
