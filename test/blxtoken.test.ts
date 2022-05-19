@@ -138,7 +138,7 @@ describe("BLX Token contract", function () {
   it("event should be emitted atfer approval", async function () {
     const [signer, approvedAddress] = await ethers.getSigners();
   
-    await expect(contract.approve(approvedAddress.getAddress(), 1000)).to.emit(contract, "Approve");
+    await expect(contract.approve(approvedAddress.getAddress(), 1000)).to.emit(contract, "Approval");
   });
 
   it("approve should change allowances mapping", async function () {

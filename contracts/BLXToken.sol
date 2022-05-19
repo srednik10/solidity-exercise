@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // TODO: Implement IERC20.sol interface and make the token mintable
-contract BLXToken {
+contract BLXToken is IERC20 {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
@@ -13,9 +13,7 @@ contract BLXToken {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    event Mint(address indexed to , uint256 amount);
-    event Transfer(address indexed to , uint256 amount);
-    event Approve(address indexed approvingAddress, address indexed approvedAddress, uint256 amount);
+    event Mint(address indexed to, uint256 amount);
 
     constructor(string memory name_, string memory symbol_, uint8 decimals_) {
         _name = name_;
@@ -52,7 +50,7 @@ contract BLXToken {
         emit Mint(msg.sender, amount);
     }
 
-    function transfer(address addressTo, uint256 amount) public {
+    function transfer(address addressTo, uint256 amount) public returns (bool) {
         require(msg.sender != addressTo, "Sender cannot transfer to himself");
         require(_balances[msg.sender] >= amount, "Sender does not have enough funds");
         require(addressTo != address(0), "Zero address cannot be recipient");
@@ -60,18 +58,24 @@ contract BLXToken {
 
         _balances[msg.sender] -= amount;
         _balances[addressTo] += amount;
-        emit Transfer(addressTo, amount);
+        emit Transfer(msg.sender, addressTo, amount);
+        return true;
     }
     
-    function approve(address approvedAddress, uint256 amount) public {
+    function approve(address approvedAddress, uint256 amount) public returns (bool) {
         require(amount > 0, "Amount cannot be 0");
         require(msg.sender != approvedAddress, "Sender cannot set allowace for himself");
         _allowances[msg.sender][approvedAddress] = amount;
-        emit Approve(msg.sender, approvedAddress, amount);
+        emit Approval(msg.sender, approvedAddress, amount);
+        return true;
     }
 
     function allowance(address allowedFrom, address allowedTo) public view returns (uint256) {
         return _allowances[allowedFrom][allowedTo];
+    }
+
+    function transferFrom(address addressFrom, address addressTo, uint256 amount) public returns (bool) {
+        return true;
     }
 
 }
