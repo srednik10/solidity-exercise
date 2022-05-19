@@ -13,6 +13,7 @@ contract BLXToken {
     mapping(address => uint256) private _balances;
 
     event Mint(address indexed to , uint256 amount);
+    event Transfer(address indexed to , uint256 amount);
 
     constructor(string memory name_, string memory symbol_, uint8 decimals_) {
         _name = name_;
@@ -43,9 +44,21 @@ contract BLXToken {
     function mint(uint256 amount) public {
         require(2**256 - 1 - _totalSupply >= amount, "Total supply overflow");
         require(amount > 0, "Amount cannot be 0");
+        
         _totalSupply += amount;
         _balances[msg.sender] += amount;
         emit Mint(msg.sender, amount);
     }
+
+    function transfer(address addressTo, uint256 amount) public {
+        require(_balances[msg.sender] >= amount, "Sender does not have enough funds");
+        require(addressTo != address(0), "Zero address cannot be recipient");
+        require(amount > 0, "Amount cannot be 0");
+
+        _balances[msg.sender] -= amount;
+        _balances[addressTo] += amount;
+        emit Transfer(addressTo, amount);
+    }
+
 
 }
