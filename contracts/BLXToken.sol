@@ -70,5 +70,8 @@ contract BLXToken {
         emit Approve(msg.sender, approvedAddress, amount);
     }
 
+    function allowance(address allowedFrom, address allowedTo) public view returns (uint256) {
+        return _allowances[allowedFrom][allowedTo];
+    }
 
 }

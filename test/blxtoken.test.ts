@@ -141,5 +141,14 @@ describe("BLX Token contract", function () {
     await expect(contract.approve(approvedAddress.getAddress(), 1000)).to.emit(contract, "Approve");
   });
 
+  it("approve should change allowances mapping", async function () {
+    const [signer, approvedAddress] = await ethers.getSigners();
+    await contract.approve(approvedAddress.getAddress(), 1000);
+
+    const allowance = await contract.allowance(signer.getAddress(), approvedAddress.getAddress());
+
+    expect(allowance).to.equal(1000);
+    
+  });
 
 });
