@@ -64,6 +64,7 @@ contract BLXToken is IERC20 {
     function approve(address approvedAddress, uint256 amount) public returns (bool) {
         require(amount > 0, "Amount cannot be 0");
         require(msg.sender != approvedAddress, "Sender cannot set allowance for himself");
+        require(approvedAddress != address(0), "Zero address cannot be set as approvedAddress");
         _allowances[msg.sender][approvedAddress] = amount;
         emit Approval(msg.sender, approvedAddress, amount);
         return true;

@@ -129,11 +129,18 @@ describe("BLX Token contract", function () {
     await expect(contract.approve(approvedAddress.getAddress(), 0)).to.be.revertedWith("Amount cannot be 0");
   });
 
+  it("approve should throw exception if zero address is set as approvedAddress", async function () {
+    const [signer] = await ethers.getSigners();
+  
+    await expect(contract.approve("0x0000000000000000000000000000000000000000", 1000)).to.be.revertedWith("Zero address cannot be set as approvedAddress");
+  });
+
   it("allowace should throw exception if sender sets allowance for himself", async function () {
     const [signer] = await ethers.getSigners();
   
     await expect(contract.approve(signer.getAddress(), 1000)).to.be.revertedWith("Sender cannot set allowance for himself");
   });
+  
 
   it("event should be emitted atfer approval", async function () {
     const [signer, approvedAddress] = await ethers.getSigners();
